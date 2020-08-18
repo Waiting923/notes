@@ -10,7 +10,7 @@
 - [Attaching physical PCI devices to guests](https://docs.openstack.org/nova/pike/admin/pci-passthrough.html)
 ## 问题
 - [ 描述 ] 由于显卡上带有type-c接口，通过正常vfio-pci的方式进行设备隔离，重启物理节点后，type-c端口重新被物理机的内核usb3.0 xhci_hcd所管理，导致透传失败。而xhci_hcd被编译在内核中，无法通过blacklist方式来将module禁用。  
-[type-c.png](https://github.com/shutupandrun/picture/blob/master/type-c.png?raw=true)
+![type-c.png](https://github.com/shutupandrun/picture/blob/master/type-c.png?raw=true)
 
 - [ 解决方式 ] 将type-c接口通过pci-stub方式进行隔离  
-[pci-stub.png](https://github.com/shutupandrun/picture/blob/master/pci-stub.png)
+![pci-stub.png](https://github.com/shutupandrun/picture/blob/master/pci-stub.png)
