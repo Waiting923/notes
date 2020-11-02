@@ -80,8 +80,8 @@ kolla-ansible -i multinode deploy
 kolla-ansible -i multinode post-deploy
 ```
 
-注：setup.yml 单步执行在命令后加 -t {tags}
-- __tags:__
+注：setup.yml 单步执行在命令后加 -t {tags}  
+__tags:__
 - system (关闭selinux、firewalld)
 - copy_repo(生成所有节点yum.repo)
 - yum_install (安装依赖包)
