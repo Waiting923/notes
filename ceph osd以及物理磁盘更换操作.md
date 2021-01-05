@@ -1,7 +1,7 @@
 # ceph osd以及物理磁盘更换操作
 
 ## 准备操作
-- 以osd.571 raid卡掉盘故障为例
+以osd.571 raid卡掉盘故障为例
 查找osd所在节点
 ```
 ceph osd find 571
@@ -75,9 +75,12 @@ ceph-volume lvm list
 ```
 osd571已经从raid卡掉盘，所以使用排除法确认盘符以及日志盘符为sdk1,sdk2
 
-确认raid卡下的target/device id 
-如下所示link名称pci部分代表pci总线地址，pci总线地址按照raid卡序号顺序排列，所以ll所显示从上到下分别对应raid卡0，1，2... 
-scsi部分代表改磁盘对应在raid卡上的targetid(若做raid)或deviceid(若jbod) 
+确认raid卡下的target/device id
+
+如下所示link名称pci部分代表pci总线地址，pci总线地址按照raid卡序号顺序排列，所以ll所显示从上到下分别对应raid卡0，1，2...
+
+scsi部分代表改磁盘对应在raid卡上的targetid(若做raid)或deviceid(若jbod)
+
 这里通过推断osd.571对应的物理盘符sdk对应的是raid卡0上的device id 10（这里磁盘为ssd没有做raid） 
 ```
 ll /dev/disk/by-path/
@@ -90,10 +93,12 @@ lrwxrwxrwx 1 root root 10 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:11:0-part2 -> .
 ```
 
 查询raid卡上该盘对应信息
+
 jbod模式执行下面命令查询
 ```
 sudo /opt/MegaRAID/MegaCli/MegaCli64 -PdList -a0 -NoLog
 ```
+
 因为我们的osd.571(raid-0-10)已经掉盘，则以后一块盘为例
 ```
 Enclosure Device ID: 32      #需要记录
@@ -278,6 +283,7 @@ Exit Code: 0x00
 ```
 
 通过smartctl再次确认磁盘故障
+
 查询raid卡disk信息
 ```
 sudo smartctl --scan
@@ -406,8 +412,10 @@ sudo /opt/MegaRAID/MegaCli/MegaCli64 -AdpEventLog -GetEvents -fatal -f raid_even
 若日志中Command timeout或reset的event，轻则造成IO短暂block，重则导致主机OS hang住
 
 
-- ceph osd下线操作
+## ceph osd下线操作
+
 确认osd是否已经踢出集群（down/out）
+
 若未踢出集群则手动操作停止osd进程并踢出集群，操作前可调整ceph集群均衡速率以减轻数据均衡时对集群读写的影响
 ```
 sudo ceph tell osd.* injectargs --osd_recovery_sleep 0.1 #数值范围0~0.5 数值越大均衡速率越快，影响越大
@@ -431,6 +439,7 @@ ceph osd out 571
 若立即更换新盘则无需删除crushmap中osd信息
 
 12版本以后还需清理lvm
+
 使用lvremove/vgremove/pvremove清理相关信息
 
 检查raid卡cache
