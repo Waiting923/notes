@@ -4,7 +4,7 @@
 
 若未踢出集群则手动操作停止osd进程并踢出集群，操作前可调整ceph集群均衡速率以减轻数据均衡时对集群读写的影响
 ```
-sudo ceph tell osd.* injectargs --osd_recovery_sleep 0.1 #数值范围0~0.5 数值越大均衡速率越快，影响越大
+sudo ceph tell osd.* injectargs --osd_recovery_sleep 0.1 #数值范围0~0.5 数值越大均衡速率越慢，影响越小
 ```
 
 停止osd进程
