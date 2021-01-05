@@ -2,7 +2,7 @@
 
 ## 准备操作
 - 以osd.571 raid卡掉盘故障为例
-- 查找osd所在节点
+查找osd所在节点
 ```
 ceph osd find 571
 {
@@ -14,14 +14,19 @@ ceph osd find 571
         "root": "*********************"
     }
 }
-
+```
 登陆该节点确认osd盘符
 ceph10版本命令
+```
 ceph-disk list
-
+```
 ceph12版本命令
+```
 ceph-volume lvm list
+```
 
+输出内容
+```
 ===== osd.572 ======
 
   [data]    /dev/ceph-fff2e308-6deb-49c3-91ad-2d92e871e417/osd-data-bb38f950-a15e-4f1c-aade-14e529f45db6
@@ -67,13 +72,14 @@ ceph-volume lvm list
   [journal]    /dev/sdj1
 
       PARTUUID                  7aaf37fb-844d-4d7a-b968-c2eda2b9b6df
-
+```
 osd571已经从raid卡掉盘，所以使用排除法确认盘符以及日志盘符为sdk1,sdk2
 
 确认raid卡下的target/device id
 如下所示link名称pci部分代表pci总线地址，pci总线地址按照raid卡序号顺序排列，所以ll所显示从上到下分别对应raid卡0，1，2...
 scsi部分代表改磁盘对应在raid卡上的targetid(若做raid)或deviceid(若jbod)
 这里通过推断osd.571对应的物理盘符sdk对应的是raid卡0上的device id 10（这里磁盘为ssd没有做raid）
+```
 ll /dev/disk/by-path/
 lrwxrwxrwx 1 root root  9 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:9:0 -> ../../sdj
 lrwxrwxrwx 1 root root 10 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:9:0-part1 -> ../../sdj1
@@ -81,11 +87,15 @@ lrwxrwxrwx 1 root root 10 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:9:0-part2 -> ..
 lrwxrwxrwx 1 root root  9 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:11:0 -> ../../sdl
 lrwxrwxrwx 1 root root 10 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:11:0-part1 -> ../../sdl1
 lrwxrwxrwx 1 root root 10 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:11:0-part2 -> ../../sdl2
+```
 
 查询raid卡上该盘对应信息
 jbod模式执行下面命令查询
+```
 sudo /opt/MegaRAID/MegaCli/MegaCli64 -PdList -a0 -NoLog
+```
 因为我们的osd.571(raid-0-10)已经掉盘，则以后一块盘为例
+```
 Enclosure Device ID: 32      #需要记录
 Slot Number: 11    #物理插槽编号                          
 Enclosure position: 1
@@ -130,8 +140,10 @@ Port-0 :
 Port status: Active
 Port's Linkspeed: 6.0Gb/s
 Drive has flagged a S.M.A.R.T alert : No
+```
 
 若做了raid的磁盘上面命令同样可以查询PD信息，执行下面命令查询更为清晰看出VD信息
+```
 sudo /opt/MegaRAID/MegaCli/MegaCli64 -LdPdInfo -a0 -NoLog
 
 Adapter #0
@@ -263,14 +275,18 @@ Drive has flagged a S.M.A.R.T alert : No
 
 
 Exit Code: 0x00
+```
 
 通过smartctl再次确认磁盘故障
 查询raid卡disk信息
+```
 sudo smartctl --scan
 /dev/sdj -d scsi # /dev/sdj, SCSI device（JBOD）
 /dev/bus/0 -d megaraid,11 # /dev/bus/0 [megaraid_disk_11], SCSI device （RAID）
+```
 
 确认raid卡对应的bus以及device id后查询磁盘信息
+```
 sudo smartctl -a /dev/sdj（JBOD）
 smartctl 6.2 2017-02-27 r4394 [x86_64-linux-3.10.0-693.21.1.el7.x86_64] (local build)
 Copyright (C) 2002-13, Bruce Allen, Christian Franke, www.smartmontools.org
@@ -374,31 +390,43 @@ SMART Selective self-test log data structure revision number 1
 Selective self-test flags (0x0):
   After scanning selected spans, do NOT read-scan remainder of disk.
 If Selective self-test is pending on power-up, resume after 0 minute delay.
+```
 
 RAID模式查询使用以下命令
+```
 sudo smartctl -a -d megaraid,24 /dev/bus/0
+```
 
 通过以下命令可以将raid卡的各级别日志保存进行查看
+```
 sudo /opt/MegaRAID/MegaCli/MegaCli64 -AdpEventLog -GetEvents -warning -f raid_event_warning_YYYYMMDD -aALL
 sudo /opt/MegaRAID/MegaCli/MegaCli64 -AdpEventLog -GetEvents -critical -f raid_event_critical_YYYYMMDD -aALL
 sudo /opt/MegaRAID/MegaCli/MegaCli64 -AdpEventLog -GetEvents -fatal -f raid_event_fatal_YYYYMMDD -aALL
-若日志中Command timeout或reset的event，轻则造成IO短暂block，重则导致主机OS hang住
 ```
+若日志中Command timeout或reset的event，轻则造成IO短暂block，重则导致主机OS hang住
+
 
 - ceph osd下线操作
-```
 确认osd是否已经踢出集群（down/out）
 若未踢出集群则手动操作停止osd进程并踢出集群，操作前可调整ceph集群均衡速率以减轻数据均衡时对集群读写的影响
+```
 sudo ceph tell osd.* injectargs --osd_recovery_sleep 0.1 #数值范围0~0.5 数值越大均衡速率越快，影响越大
+```
 
 停止osd进程
+```
 systemctl stop ceph-osd@571
+```
 
 清理挂载点
+```
 sudo umount /var/lib/ceph/osd/ceph-571
+```
 
 等待超时自动out，或手动out
+```
 ceph osd out 571
+```
 
 若立即更换新盘则无需删除crushmap中osd信息
 
@@ -406,12 +434,13 @@ ceph osd out 571
 使用lvremove/vgremove/pvremove清理相关信息
 
 检查raid卡cache
+```
 sudo /opt/MegaRAID/MegaCli/MegaCli64  -GetPreservedCacheList -aALL
 Adapter 0: No Virtual Drive has Preserved Cache Data.
 Exit Code: 0x00
-
-若存在cache则根据cache信息清理raid cache
-sudo /opt/MegaRAID/MegaCli/MegaCli64 -DiscardPreservedCache -L1 -a0
-
 ```
 
+若存在cache则根据cache信息清理raid cache
+```
+sudo /opt/MegaRAID/MegaCli/MegaCli64 -DiscardPreservedCache -L1 -a0
+```
