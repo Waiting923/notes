@@ -1,7 +1,7 @@
 # ceph osd硬盘故障定位
 
-## 准备操作
-以osd.571 raid卡掉盘故障为例
+## 以osd.571 raid卡掉盘故障为例
+
 查找osd所在节点
 ```
 ceph osd find 571
