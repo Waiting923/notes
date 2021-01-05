@@ -1,8 +1,9 @@
-#ceph osd以及物理磁盘更换操作
-##ceph准备操作
-- 确认故障osd对应盘符（以osd.571 raid卡掉盘故障为例）
+# ceph osd以及物理磁盘更换操作
+
+## 准备操作
+- 以osd.571 raid卡掉盘故障为例
+- 查找osd所在节点
 ```
-查找osd所在节点
 ceph osd find 571
 {
     "osd": 571,
