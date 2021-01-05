@@ -75,10 +75,10 @@ ceph-volume lvm list
 ```
 osd571已经从raid卡掉盘，所以使用排除法确认盘符以及日志盘符为sdk1,sdk2
 
-确认raid卡下的target/device id
-如下所示link名称pci部分代表pci总线地址，pci总线地址按照raid卡序号顺序排列，所以ll所显示从上到下分别对应raid卡0，1，2...
-scsi部分代表改磁盘对应在raid卡上的targetid(若做raid)或deviceid(若jbod)
-这里通过推断osd.571对应的物理盘符sdk对应的是raid卡0上的device id 10（这里磁盘为ssd没有做raid）
+确认raid卡下的target/device id 
+如下所示link名称pci部分代表pci总线地址，pci总线地址按照raid卡序号顺序排列，所以ll所显示从上到下分别对应raid卡0，1，2... 
+scsi部分代表改磁盘对应在raid卡上的targetid(若做raid)或deviceid(若jbod) 
+这里通过推断osd.571对应的物理盘符sdk对应的是raid卡0上的device id 10（这里磁盘为ssd没有做raid） 
 ```
 ll /dev/disk/by-path/
 lrwxrwxrwx 1 root root  9 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:9:0 -> ../../sdj
