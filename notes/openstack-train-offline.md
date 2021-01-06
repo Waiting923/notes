@@ -1,4 +1,6 @@
 # Openstack train 离线安装readme
+这里主要记录以下自己写的一个离线部署ansible脚本的使用方式
+
 ## 前置条件
 - 操作系统版本Centos7.7-1908-minimal（其他版本未进行测试）
 - 系统安装完成
