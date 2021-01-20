@@ -20,6 +20,6 @@ hexdump -s 2G -n 4k -v /dev/sdb
 ```
 
 检查结果如下图所示，可以看出两台机器所显示该4k block的head校验值一致，填写数据aaaa一致，由此可以证明数据在两台机器中写入是同步一致的。
-
-
+![hexdump1.png](https://github.com/Riverdd/picture/blob/master/hexdump1.png)
+![hexdump2.png](https://github.com/Riverdd/picture/blob/master/hexdump2.png)
 
