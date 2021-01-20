@@ -6,7 +6,8 @@
 
 调研后发现GFS2（redhat global file system,不是google file system）和OCFS可以提供该功能，于是决定在instance
 上使用GFS2进行测试，GFS2需要依赖于HA集群的lock,便搭建pacemaker+clvm+gfs2的架构来使用，搭建后发现pacemaker
-的fence agent并没有可以适用于instance的agent,就更换另外一种思路，直接对块设备进行读写验证数据一致性，就使用到了fio。
+的fence agent并没有可以适用于instance的agent,就更换另外一种思路，不使用文件系统直接对块设备进行读写验证数据一致
+性，就使用到了fio。
 
 - 使用fio写入特定数据并进行检验（如下命令我在sdb的2~4G区域使用aaaa写入,并使用crc32c进行数据检验）
 
