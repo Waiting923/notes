@@ -1,0 +1,82 @@
+- 安装系统时进行了两次pxe，将两个一模一样lvm分区的系统分别安装到了两块磁盘，启动时一直启动在我们不想启动的磁盘上面，采用后续方法对系统进行了重新挂载处理。
+主要思路：修改冲突的vg,lv名称，重新加载真正想要使用的inactive的lv，修改fstab,重启
+```
+root@ewf-n-0-144:~# vgs -v
+  Cache: Duplicate VG name ubuntu-vg: Prefer existing pqvZeh-rA1U-8bMO-QxDL-fF4X-C585-fTjPsG vs new h4mggO-NfqR-z2No-79st-Itss-e3L1-OgzyCt
+  Archiving volume group "ubuntu-vg" metadata (seqno 2).
+  Archiving volume group "ubuntu-vg" metadata (seqno 2).
+  Creating volume group backup "/etc/lvm/backup/ubuntu-vg" (seqno 2).
+  Archiving volume group "ubuntu-vg" metadata (seqno 2).
+  Archiving volume group "ubuntu-vg" metadata (seqno 2).
+  Creating volume group backup "/etc/lvm/backup/ubuntu-vg" (seqno 2).
+  VG        Attr   Ext   #PV #LV #SN VSize   VFree   VG UUID                                VProfile
+  ubuntu-vg wz--n- 4.00m   1   1   0 743.62g 543.62g h4mggO-NfqR-z2No-79st-Itss-e3L1-OgzyCt
+  ubuntu-vg wz--n- 4.00m   1   1   0  <3.64t   3.44t pqvZeh-rA1U-8bMO-QxDL-fF4X-C585-fTjPsG
+root@ewf-n-0-144:~# vgrename pqvZeh-rA1U-8bMO-QxDL-fF4X-C585-fTjPsG ubuntu-vg1
+  Processing VG ubuntu-vg because of matching UUID pqvZeh-rA1U-8bMO-QxDL-fF4X-C585-fTjPsG
+  Volume group "pqvZeh-rA1U-8bMO-QxDL-fF4X-C585-fTjPsG" successfully renamed to "ubuntu-vg1"
+root@ewf-n-0-144:~# vgs
+  VG         #PV #LV #SN Attr   VSize   VFree
+  ubuntu-vg    1   1   0 wz--n- 743.62g 543.62g
+  ubuntu-vg1   1   1   0 wz--n-  <3.64t   3.44t
+root@ewf-n-0-144:~# lvscan
+  inactive          '/dev/ubuntu-vg/ubuntu-lv' [200.00 GiB] inherit
+  ACTIVE            '/dev/ubuntu-vg1/ubuntu-lv' [200.00 GiB] inherit
+root@ewf-n-0-144:~# lvrename ubuntu-vg1 ubuntu-lv ubuntu-lv1
+  Renamed "ubuntu-lv" to "ubuntu-lv1" in volume group "ubuntu-vg1"
+root@ewf-n-0-144:~# lvs
+  LV         VG         Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  ubuntu-lv  ubuntu-vg  -wi------- 200.00g
+  ubuntu-lv1 ubuntu-vg1 -wi-ao---- 200.00g
+root@ewf-n-0-144:~# vgchange -a y
+  1 logical volume(s) in volume group "ubuntu-vg" now active
+  1 logical volume(s) in volume group "ubuntu-vg1" now active
+root@ewf-n-0-144:~# lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/ubuntu-vg/ubuntu-lv
+  LV Name                ubuntu-lv
+  VG Name                ubuntu-vg
+  LV UUID                zzrImQ-aieI-Yrh6-A261-Yg3a-TWSC-0FzidQ
+  LV Write Access        read/write
+  LV Creation host, time ubuntu-server, 2021-05-15 14:38:08 +0800
+  LV Status              available
+  # open                 0
+  LV Size                200.00 GiB
+  Current LE             51200
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:1
+
+  --- Logical volume ---
+  LV Path                /dev/ubuntu-vg1/ubuntu-lv1
+  LV Name                ubuntu-lv1
+  VG Name                ubuntu-vg1
+  LV UUID                ZMskus-soPk-FRP3-tMSE-fTL8-79Em-wnqtvk
+  LV Write Access        read/write
+  LV Creation host, time ubuntu-server, 2021-05-15 14:05:08 +0800
+  LV Status              available
+  # open                 1
+  LV Size                200.00 GiB
+  Current LE             51200
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+root@ewf-n-0-144:~# cat /etc/fstab
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/ubuntu-vg/ubuntu-lv during curtin installation
+/dev/disk/by-id/dm-uuid-LVM-pqvZehrA1U8bMOQxDLfF4XC585fTjPsGZMskussoPkFRP3tMSEfTL879Emwnqtvk / ext4 defaults 0 0
+# /boot was on /dev/nvme0n1p2 during curtin installation
+/dev/disk/by-uuid/9e8639e8-ceed-4a48-806f-124ac252e314 /boot ext4 defaults 0 0
+/swap.img       none    swap    sw      0       0
+按照对应路径把真正想要启动的lv和boot进行挂载，然后重启即可
+```
