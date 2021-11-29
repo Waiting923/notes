@@ -388,3 +388,10 @@ centos-source-zabbix-server
 ```
 - TASK [kolla-zabbix : import zabbix database schema]可能会运行很长时间
 - 部署完成
+
+---
+## 备注
+- 在进行重推时不跑common task以节约时间
+```
+-e common_run=true
+```
