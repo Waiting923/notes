@@ -9,3 +9,4 @@
 - [fio校验数据一致性](https://github.com/Riverdd/notes/blob/master/notes/fio%E6%A0%A1%E9%AA%8C%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7.md)
 - [系统分区重新挂载](https://github.com/Riverdd/notes/blob/master/notes/%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA%E9%87%8D%E6%96%B0%E6%8C%82%E8%BD%BD.md)
 - [Mariadb操作](https://github.com/Riverdd/notes/blob/master/notes/Mariadb.md)
+- [python相关](https://github.com/Riverdd/notes/blob/master/notes/python相关.md)
