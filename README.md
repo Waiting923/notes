@@ -8,3 +8,4 @@
 - [ceph osd更换故障盘后重新上线](https://github.com/Riverdd/notes/blob/master/notes/ceph%20osd%E6%9B%B4%E6%8D%A2%E6%95%85%E9%9A%9C%E7%9B%98%E5%90%8E%E9%87%8D%E6%96%B0%E4%B8%8A%E7%BA%BF.md)
 - [fio校验数据一致性](https://github.com/Riverdd/notes/blob/master/notes/fio%E6%A0%A1%E9%AA%8C%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7.md)
 - [系统分区重新挂载](https://github.com/Riverdd/notes/blob/master/notes/%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA%E9%87%8D%E6%96%B0%E6%8C%82%E8%BD%BD.md)
+- [Mariadb操作](https://github.com/Riverdd/notes/blob/master/notes/Mariadb.md)
