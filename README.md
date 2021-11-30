@@ -10,3 +10,4 @@
 - [系统分区重新挂载](https://github.com/Riverdd/notes/blob/master/notes/%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA%E9%87%8D%E6%96%B0%E6%8C%82%E8%BD%BD.md)
 - [Mariadb操作](https://github.com/Riverdd/notes/blob/master/notes/Mariadb.md)
 - [python相关](https://github.com/Riverdd/notes/blob/master/notes/python相关.md)
+- [rabbitmq相关](https://github.com/Riverdd/notes/blob/master/notes/rabbitmq.md)
