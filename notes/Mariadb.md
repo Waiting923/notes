@@ -37,7 +37,7 @@ innodb_open_files = 2000
 # systemctl daemon-reload
 # systemctl restart mariadb
 ```
-
+---
 ## Mariadb glaera集群初始化/恢复
 1. 挑选数据最新节点修改安全启动
 ```shell

@@ -15,6 +15,7 @@
 退出虚拟环境
 #deactivate
 ```
+---
 ## 查询库依赖
   1. 使用pipdeptree查询依赖树
 ```shell
