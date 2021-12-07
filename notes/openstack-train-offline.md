@@ -12,16 +12,16 @@
 - 将workspace-xxxxxx.tar.gz上传至deploy节点/root路径
 - 解压该文件
 ```
-tar -xvzf workspace-xxxxxx.tar.gz
+$ tar -xvzf workspace-xxxxxx.tar.gz
 ```
 - 执行命令
 ```
-cd /root/workspace
-./createrepo.sh
+$ cd /root/workspace
+$ ./createrepo.sh
 ```
 - 编辑node
 ```
-vim /root/workspace/node
+$ vim /root/workspace/node
 [all:vars]
 deploy_ip=控制节点控制网络ip地址
 [deploy]
@@ -48,7 +48,7 @@ ceph osd 节点主机名
 ```
 - 编辑globals.yml
 ```
-vim /etc/kolla/globals.yml
+$ vim /etc/kolla/globals.yml
 kolla_internal_vip_address: "{{ vip_address }}" #vip_address替换为openstack集群vip
 docker_registry: "{{ deploy_ip }}:{{ registry_port }}" #deploy_ip替换为部署节点管理网ip地址，registry_port替换为4000
 network_interface: "{{  mt_port }}" #mt_port替换为所有节点管理网口名称
@@ -57,29 +57,29 @@ neutron_external_interface: "{{ bz_port }}" #bz_port替换为所有节点业务�
 ```
 - ceph osd 磁盘打标签
 ```
-cd /root/workspace
-vim ./ceph/osd_tag.sh #根据真实osd磁盘盘符进行脚本修改
-ansible -i multinode -m copy -a "src=/root/workspace/ceph/osd_tag.sh dest=/root" storage #拷贝脚本到目标节点
-ansible -i multinode -m shell -a "bash /root/osd_tag.sh" storage
+$ cd /root/workspace
+$ vim ./ceph/osd_tag.sh #根据真实osd磁盘盘符进行脚本修改
+$ ansible -i multinode -m copy -a "src=/root/workspace/ceph/osd_tag.sh dest=/root" storage #拷贝脚本到目标节点
+$ ansible -i multinode -m shell -a "bash /root/osd_tag.sh" storage
 #如果需要磁盘分区清理则执行以下命令
-vim ./ceph/osd_clean.sh #根据真实osd磁盘盘符进行脚本修改
-ansible -i multinode -m copy -a "src=/root/workspace/ceph/osd_clean.sh dest=/root" storage #拷贝脚本到目标节点
-ansible -i multinode -m shell -a "bash /root/osd_clean.sh" storage
+$ vim ./ceph/osd_clean.sh #根据真实osd磁盘盘符进行脚本修改
+$ ansible -i multinode -m copy -a "src=/root/workspace/ceph/osd_clean.sh dest=/root" storage #拷贝脚本到目标节点
+$ ansible -i multinode -m shell -a "bash /root/osd_clean.sh" storage
 ```
 
 - 部署预检查
 ```
-kolla-ansible -i multinode prechecks
+$ kolla-ansible -i multinode prechecks
 ```
 
 - 部署
 ```
-kolla-ansible -i multinode deploy
+$ kolla-ansible -i multinode deploy
 ```
 
 - 生成openrc
 ```
-kolla-ansible -i multinode post-deploy
+$ kolla-ansible -i multinode post-deploy
 ```
 
 注：setup.yml 单步执行在命令后加 -t {tags}  

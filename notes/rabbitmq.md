@@ -2,34 +2,34 @@
 ## Rabbitmq集群初始化
 1. 确认各节点rabbitmq-server服务已经正常安装启动
 ```shell
-# systemctl status rabbitmq-server
-# rabbitmqctl cluster_status(此时集群应为各节点脑裂状态)
+$ systemctl status rabbitmq-server
+$ rabbitmqctl cluster_status(此时集群应为各节点脑裂状态)
 ```
 2. 统一 .erlang.cookie，选择一个节点的erlang cookie覆盖至另外两个节点
 ```shell
-# cat /var/lib/rabbitmq/.erlang.cookie
+$ cat /var/lib/rabbitmq/.erlang.cookie
 ```
 3. 重启被覆盖的两个节点
 ```shell
-# systemctl restart rabbitmq-server
+$ systemctl restart rabbitmq-server
 ```
 4. 把被修改的节点加入集群,两个节点依次执行
 ```shell
-# rabbitmqctl stop_app
-# rabbitmqctl reset
-# rabbitmqctl join_cluster rabbit@rabbit-node1
-# rabbitmqctl start_app
+$ rabbitmqctl stop_app
+$ rabbitmqctl reset
+$ rabbitmqctl join_cluster rabbit@rabbit-node1
+$ rabbitmqctl start_app
 ```
 5. 加入好后确认集群状态
 ```shell
-# rabbitmqctl cluster_status
+$ rabbitmqctl cluster_status
 ```
 ---
 ## Rabbitmq 开启dashboard
 1. enable management plugin
 ```shell
-# rabbitmq-plugins enable rabbitmq_management
-# rabbitmq-plugins list
+$ rabbitmq-plugins enable rabbitmq_management
+$ rabbitmq-plugins list
 Listing plugins with pattern ".*" ...
  Configured: E = explicitly enabled; e = implicitly enabled
  | Status: * = running on rabbit@s4a-sms6
@@ -69,7 +69,7 @@ Listing plugins with pattern ".*" ...
 ```
 2. 逐台重启rabbitmq
 ```shell
-# systemctl restart rabbitmq-server
+$ systemctl restart rabbitmq-server
 ```
 
 3. 若启动失败，确认haproxy是否占用了15672端口，若占用将haproxy端口改为其它，如15673
@@ -86,7 +86,7 @@ Listing plugins with pattern ".*" ...
 ```
 2. 需要赢重启rabbitmq，先停掉非ram主节点，后重启主节点，再启动另外两个节点(如下sms8为主节点)
 ```shell
-# rabbitmqctl cluster_status
+$ rabbitmqctl cluster_status
 Cluster status of node rabbit@s4a-sms6 ...
 [{nodes,[{disc,['rabbit@sms6','rabbit@sms7','rabbit@sms8']}]},
  {running_nodes,['rabbit@sms8','rabbit@sms7','rabbit@sms6']},

@@ -4,7 +4,7 @@
 
 查找osd所在节点
 ```
-ceph osd find 571
+$ ceph osd find 571
 {
     "osd": 571,
     "ip": "***.***.***.***:6820/18008",
@@ -18,11 +18,11 @@ ceph osd find 571
 登陆该节点确认osd盘符
 ceph10版本命令
 ```
-ceph-disk list
+$ ceph-disk list
 ```
 ceph12版本命令
 ```
-ceph-volume lvm list
+$ ceph-volume lvm list
 ```
 
 输出内容
@@ -83,7 +83,7 @@ scsi部分代表改磁盘对应在raid卡上的targetid(若做raid)或deviceid(�
 
 这里通过推断osd.571对应的物理盘符sdk对应的是raid卡0上的device id 10（这里磁盘为ssd没有做raid） 
 ```
-ll /dev/disk/by-path/
+$ ll /dev/disk/by-path/
 lrwxrwxrwx 1 root root  9 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:9:0 -> ../../sdj
 lrwxrwxrwx 1 root root 10 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:9:0-part1 -> ../../sdj1
 lrwxrwxrwx 1 root root 10 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:9:0-part2 -> ../../sdj2
@@ -96,7 +96,7 @@ lrwxrwxrwx 1 root root 10 Sep  8  2018 pci-0000:3c:00.0-scsi-0:0:11:0-part2 -> .
 
 jbod模式执行下面命令查询
 ```
-sudo /opt/MegaRAID/MegaCli/MegaCli64 -PdList -a0 -NoLog
+$ sudo /opt/MegaRAID/MegaCli/MegaCli64 -PdList -a0 -NoLog
 ```
 
 因为我们的osd.571(raid-0-10)已经掉盘，则以后一块盘为例
@@ -149,7 +149,7 @@ Drive has flagged a S.M.A.R.T alert : No
 
 若做了raid的磁盘上面命令同样可以查询PD信息，执行下面命令查询更为清晰看出VD信息
 ```
-sudo /opt/MegaRAID/MegaCli/MegaCli64 -LdPdInfo -a0 -NoLog
+$ sudo /opt/MegaRAID/MegaCli/MegaCli64 -LdPdInfo -a0 -NoLog
 
 Adapter #0
 
@@ -286,14 +286,14 @@ Exit Code: 0x00
 
 查询raid卡disk信息
 ```
-sudo smartctl --scan
+$ sudo smartctl --scan
 /dev/sdj -d scsi # /dev/sdj, SCSI device（JBOD）
 /dev/bus/0 -d megaraid,11 # /dev/bus/0 [megaraid_disk_11], SCSI device （RAID）
 ```
 
 确认raid卡对应的bus以及device id后查询磁盘信息
 ```
-sudo smartctl -a /dev/sdj（JBOD）
+$ sudo smartctl -a /dev/sdj（JBOD）
 smartctl 6.2 2017-02-27 r4394 [x86_64-linux-3.10.0-693.21.1.el7.x86_64] (local build)
 Copyright (C) 2002-13, Bruce Allen, Christian Franke, www.smartmontools.org
 
@@ -400,13 +400,13 @@ If Selective self-test is pending on power-up, resume after 0 minute delay.
 
 RAID模式查询使用以下命令
 ```
-sudo smartctl -a -d megaraid,24 /dev/bus/0
+$ sudo smartctl -a -d megaraid,24 /dev/bus/0
 ```
 
 通过以下命令可以将raid卡的各级别日志保存进行查看
 ```
-sudo /opt/MegaRAID/MegaCli/MegaCli64 -AdpEventLog -GetEvents -warning -f raid_event_warning_YYYYMMDD -aALL
-sudo /opt/MegaRAID/MegaCli/MegaCli64 -AdpEventLog -GetEvents -critical -f raid_event_critical_YYYYMMDD -aALL
-sudo /opt/MegaRAID/MegaCli/MegaCli64 -AdpEventLog -GetEvents -fatal -f raid_event_fatal_YYYYMMDD -aALL
+$ sudo /opt/MegaRAID/MegaCli/MegaCli64 -AdpEventLog -GetEvents -warning -f raid_event_warning_YYYYMMDD -aALL
+$ sudo /opt/MegaRAID/MegaCli/MegaCli64 -AdpEventLog -GetEvents -critical -f raid_event_critical_YYYYMMDD -aALL
+$ sudo /opt/MegaRAID/MegaCli/MegaCli64 -AdpEventLog -GetEvents -fatal -f raid_event_fatal_YYYYMMDD -aALL
 ```
 若日志中Command timeout或reset的event，轻则造成IO短暂block，重则导致主机OS hang住

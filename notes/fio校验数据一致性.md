@@ -12,12 +12,12 @@
 - 使用fio写入特定数据并进行检验（如下命令我在sdb的2~4G区域使用aaaa写入,并使用crc32c进行数据检验）
 
 ```
-fio -filename=/dev/sdb -direct=1 -iodepth 32 -thread -rw=write -ioengine=psync -bs=4k -offset=2G -size=2G -verify=crc32c -verify_pattern=0xAA -numjobs=1 -runtime=60 -group_reporting -name=test-pt
+$ fio -filename=/dev/sdb -direct=1 -iodepth 32 -thread -rw=write -ioengine=psync -bs=4k -offset=2G -size=2G -verify=crc32c -verify_pattern=0xAA -numjobs=1 -runtime=60 -group_reporting -name=test-pt
 ```
 
 - 使用hexdump分别从两台机器对该磁盘的2~4G区域数据的第一个4K block进行数据检查
 ```
-hexdump -s 2G -n 4k -v /dev/sdb
+$ hexdump -s 2G -n 4k -v /dev/sdb
 ```
 
 检查结果如下图所示，可以看出两台机器所显示该4k block的head校验值一致，填写数据aaaa一致，由此可以证明数据在两台机器中写入是同步一致的。
