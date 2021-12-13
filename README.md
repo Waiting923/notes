@@ -12,3 +12,4 @@
 - [python相关](https://github.com/Riverdd/notes/blob/master/notes/python相关.md)
 - [rabbitmq相关](https://github.com/Riverdd/notes/blob/master/notes/rabbitmq.md)
 - [NVIDIA HPC benchmark](https://github.com/Riverdd/notes/blob/master/notes/NVIDIA%20HPC%20hpl%20benchmark.md)
+- [GPU benchmark & 深度学习相关](https://github.com/Riverdd/notes/blob/master/notes/GPU%20benchmark.md)
