@@ -1,4 +1,4 @@
-# NVIDIA GPU benchmark
+# NVIDIA GPU HPL benchmark
 
 ## 安装步骤（参考链接[1]）
 
