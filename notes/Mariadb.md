@@ -1,4 +1,13 @@
 # Mariadb
+## 连接数查询
+```
+最大连接数
+$ show variables like '%max_connections%';
+
+当前连接数
+$ show status like 'Threads%';
+```
+---
 ## 修改最大链接数以及打开文件句柄数 
 1. 确认本机limits已经修改
 ```shell
