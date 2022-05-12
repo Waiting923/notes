@@ -10,39 +10,39 @@
 
 以下镜像必须
 
-_docker.io/openstackmagnum/heat-container-agent:ussuri-dev
+_docker.io/openstackmagnum/heat-container-agent:ussuri-dev_
 
-docker.io/coredns/coredns:1.3.1
+_docker.io/coredns/coredns:1.3.1_
 
-quay.io/coreos/etcd:v3.2.7
+_quay.io/coreos/etcd:v3.2.7_
 
-docker.io/k8scloudprovider/k8s-keystone-auth:v1.18.0
+_docker.io/k8scloudprovider/k8s-keystone-auth:v1.18.0_
 
-docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.18.0
+_docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.18.0_
 
-gcr.io/google_containers/pause:3.1
+_gcr.io/google_containers/pause:3.1_
 
-docker.io/openstackmagnum/kubernetes-apiserver:v1.15.12
+_docker.io/openstackmagnum/kubernetes-apiserver:v1.15.12_
 
-docker.io/openstackmagnum/kubernetes-controller-manager:v1.15.12
+_docker.io/openstackmagnum/kubernetes-controller-manager:v1.15.12_
 
-docker.io/openstackmagnum/kubernetes-kubelet:v1.15.12
+_docker.io/openstackmagnum/kubernetes-kubelet:v1.15.12_
 
-docker.io/openstackmagnum/kubernetes-proxy:v1.15.12
+_docker.io/openstackmagnum/kubernetes-proxy:v1.15.12_
 
-docker.io/openstackmagnum/kubernetes-scheduler:v1.15.12_
+_docker.io/openstackmagnum/kubernetes-scheduler:v1.15.12_
 
 以下镜像非必须
 
-_k8s.gcr.io/hyperkube:v1.18.2
+_k8s.gcr.io/hyperkube:v1.18.2_
 
-docker.io/grafana/grafana:5.1.5
+_docker.io/grafana/grafana:5.1.5_
 
-docker.io/prom/node-exporter:latest
+_docker.io/prom/node-exporter:latest_
 
-docker.io/prom/prometheus:latest
+_docker.io/prom/prometheus:latest_
 
-docker.io/traefik:v1.7.28_
+_docker.io/traefik:v1.7.28_
 
 _gcr.io/google_containers/
 kubernetes-dashboard-amd64:v1.5.1_
