@@ -14,3 +14,4 @@
 - [NVIDIA HPC benchmark](https://github.com/Riverdd/notes/blob/master/notes/NVIDIA%20HPC%20hpl%20benchmark.md)
 - [GPU benchmark & 深度学习相关](https://github.com/Riverdd/notes/blob/master/notes/GPU%20benchmark.md)
 - [Magnum 部署 k8s](https://github.com/Riverdd/notes/blob/master/notes/magnum部署k8s.md)
+- [KVM调整磁盘iops]()
