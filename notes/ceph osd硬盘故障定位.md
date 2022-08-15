@@ -1,5 +1,9 @@
 # ceph osd硬盘故障定位
 
+- 所有MegaCli命令可以更新成新版本
+dell: perccli
+insper: storcli
+
 ## 以osd.571 raid卡掉盘故障为例
 
 查找osd所在节点
