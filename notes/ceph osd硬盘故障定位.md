@@ -2,7 +2,7 @@
 
 ### 以下所有MegaCli命令可以更新成新版本
 - dell: perccli
-- insper: storcli
+- inspur: storcli
 
 ## 以osd.571 raid卡掉盘故障为例
 
