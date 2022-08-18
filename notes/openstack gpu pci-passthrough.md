@@ -14,3 +14,8 @@
 
 - [ 解决方式 ] 将type-c接口通过pci-stub方式进行隔离  
 ![pci-stub.png](https://github.com/Riverdd/picture/blob/master/pci-stub.png)
+
+- 多个pci设备同时透传到同一台虚拟机时，flavor可以如下配置
+```
+openstack flavor set --property pci_passthrough:alias="nvme155:1,gpu3080:1" flavor3080
+```
