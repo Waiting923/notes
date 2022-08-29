@@ -193,3 +193,13 @@ compute_node_id: 72
 ```
 alias = {"name": "gpua40", "vendor_id": "10de", "product_id": "2235", "device_type":"type-PF"}
 ```
+- 查询pci设备iommu_group脚本
+```
+#!/bin/bash
+shopt -s nullglob
+for d in /sys/kernel/iommu_groups/*/devices/*; do 
+    n=${d#*/iommu_groups/*}; n=${n%%/*}
+    printf 'IOMMU Group %s ' "$n"
+    lspci -nns "${d##*/}"
+done;
+```
