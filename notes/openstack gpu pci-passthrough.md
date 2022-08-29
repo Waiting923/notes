@@ -29,10 +29,16 @@ $ grub2-mkconfig -o /boot/grub2/grub
 $ vim /etc/modprobe.d/blacklist.conf
 blacklist nouveau
 options nouveau modset=0
+
 #备份原initramfs镜像
 $ mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau.img
+
 #生成新initramfs镜像
 $ dracut /boot/initramfs-$(uname -r).img $(uname -r)
+
+#Ubuntu命令
+$ apt install initramfs-tools
+update-initramfs -u
 ```
 - 加载vfio模块
 ```
