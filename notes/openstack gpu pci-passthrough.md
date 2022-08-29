@@ -48,6 +48,11 @@ vfio-pci
 vfio_iommu_type1
 br_netfilter
 ```
+- 显卡绑定vfio(自动)
+```
+$ vim /etc/modprobe.d/vfio.conf
+options vfio-pci ids=10de:2235
+```
 - 重启后检查生效
 ```
 $ dmesg | grep IOMMU
@@ -75,8 +80,14 @@ vfio_pci               41993  0
 vfio_iommu_type1       22440  0
 vfio                   32657  2 vfio_iommu_type1,vfio_pci
 irqbypass              13503  2 kvm,vfio_pci
+
+$ lspci -nnk -d 10de:2235
+21:00.0 3D controller [0302]: NVIDIA Corporation Device [10de:2235] (rev a1)
+	Subsystem: NVIDIA Corporation Device [10de:145a]
+	Kernel modules: nouveau
 ```
-- 显卡绑定vfio
+若重启后未生效可以使用手动绑定方式进行测试
+- 显卡绑定vfio(手动)
 ```
 $ lspci -nnv | grep -i nvidia
 21:00.0 3D controller [0302]: NVIDIA Corporation Device [10de:2235] (rev a1)
@@ -135,4 +146,50 @@ flavor元数据
 - 多个pci设备同时透传到同一台虚拟机时，flavor可以如下配置
 ```
 openstack flavor set --property pci_passthrough:alias="nvme155:1,gpu3080:1" flavor3080
+```
+- 可以手动kvm挂载gpu设备，但是openstack-scheduler pcipassthrough失败
+```
+#在对应节点创建不带gpu的虚拟机后
+$ vim a40.xml
+<hostdev mode='subsystem' type='pci' managed='yes'>
+    <driver name='vfio' />
+    <source>
+        <address domain='0x0000' bus='0x21' solt='0x00' function='0x0'  /> #bus对应lspci的pci地址
+    </source>
+</hostdev>
+
+$ virsh attach-device instance-000044e2 a40.xml
+```
+查询数据库发现识别device_type为type-PF
+```
+MariaDB [(none)]> use nova;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [nova]> select * from pci_devices where product_id='2235'\G
+*************************** 1. row ***************************
+     created_at: 2022-08-29 02:14:35
+     updated_at: 2022-08-29 07:50:58
+     deleted_at: NULL
+        deleted: 0
+             id: 141
+compute_node_id: 72
+        address: 0000:21:00.0
+     product_id: 2235
+      vendor_id: 10de
+       dev_type: type-PF
+         dev_id: pci_0000_21_00_0
+          label: label_10de_2235
+         status: available
+     extra_info: {}
+  instance_uuid: NULL
+     request_id: NULL
+      numa_node: 0
+    parent_addr: NULL
+           uuid: 8c505d6e-f52c-40b7-b64f-9c675bd100a5
+```
+修改对应节点pci配置为"device_type":"type-PF"
+```
+alias = {"name": "gpua40", "vendor_id": "10de", "product_id": "2235", "device_type":"type-PF"}
 ```
