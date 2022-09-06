@@ -59,7 +59,7 @@ options vfio-pci ids=10de:2235
 $ cat /proc/cmdline
 BOOT_IMAGE=/vmlinuz-3.10.0-1160.el7.x86_64 root=/dev/mapper/centos-root ro crashkernel=auto amd_iommu=on iommu=pt rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet
 
-$ dmesg | grep IOMMU
+$ dmesg | grep IOMMU (AMD)
 [   10.021227] AMD-Vi: IOMMU performance counters supported
 [   10.021290] AMD-Vi: IOMMU performance counters supported
 [   10.021315] AMD-Vi: IOMMU performance counters supported
@@ -76,6 +76,10 @@ $ dmesg | grep IOMMU
 [   10.097377] AMD-Vi: Found IOMMU at 0000:c0:00.2 cap 0x40
 [   10.097380] AMD-Vi: Found IOMMU at 0000:a0:00.2 cap 0x40
 [   10.097384] AMD-Vi: Found IOMMU at 0000:80:00.2 cap 0x40
+
+$ dmesg | grep IOMMU (Intel)
+[    0.000000] DMAR: IOMMU enabled
+[    0.323374] DMAR-IR: IOAPIC id 8 under DRHD base  0x9b7fc000 IOMMU 9
 
 $ lsmod | grep nouveau
 
