@@ -11,6 +11,7 @@
 
 #注： 超微机器开启iommu同时，开启网卡的pci-sriov会出现问题。
 ## 节点初始化
+[gpu-init.yaml](https://github.com/Riverdd/scripts/blob/master/gpu-init.yaml)
 - 开启iommu(intel cpu: intel_iommu, amd cpu: amd_iommu)
 ```
 $ vim /etc/default/grub
