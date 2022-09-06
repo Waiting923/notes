@@ -23,7 +23,7 @@ GRUB_TERMINAL_OUTPUT="console"
 GRUB_CMDLINE_LINUX="crashkernel=auto amd_iommu=on iommu=pt rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet"
 GRUB_DISABLE_RECOVERY="true"
 
-$ grub2-mkconfig -o /boot/grub2/grub
+$ grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 - 关闭nouveau模块
 ```
