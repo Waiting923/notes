@@ -15,3 +15,6 @@
 - [GPU benchmark & 深度学习相关](https://github.com/Riverdd/notes/blob/master/notes/GPU%20benchmark.md)
 - [Magnum 部署 k8s](https://github.com/Riverdd/notes/blob/master/notes/magnum部署k8s.md)
 - [KVM调整磁盘iops](https://github.com/Riverdd/notes/blob/master/notes/kvm调整磁盘iops阈值.md)
+- [镜像加速](https://github.com/Riverdd/notes/blob/master/notes/镜像加速.md)
+- [镜像扫描](https://github.com/Riverdd/notes/blob/master/notes/镜像扫描.md)
+- [kuryr-kubernetes](https://github.com/Riverdd/notes/blob/master/notes/kuryr-kubernetes.md)
