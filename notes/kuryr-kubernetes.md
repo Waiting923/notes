@@ -5,6 +5,7 @@ kuryr-k8s设计的核心思路，将worker节点作为neutron-ovs-agent节点纳
 
 ## 部署
 ![kuryr-k8s-install](../images/kuryr-k8s-install.png)
+
 kuryr-kurbernetes部署可以分为3个部分（kuryr-controller可以在和kubernetes-api/neutron通信的情况下，自由选择部署位置）
 - worker
 - openstack-neutron
