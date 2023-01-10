@@ -187,10 +187,11 @@ $ istio-1.16.1/bin/istioctl install --manifests=manifests/
 
 $ istio-1.16.1/bin/istioctl uninstall --purge
 ```
-## 修改ingressgw externalip
+## 修改ingress-gw external-ip
 ```
 $ kubectl  -n istio-system edit svc istio-ingressgateway
 spec:
   externalIPs:
   - xxx.xxx.xxx.xxx
 ```
+## 根据需求配置cert/gw/policy/vs
