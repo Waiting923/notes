@@ -19,3 +19,4 @@
 - [镜像扫描](https://github.com/Riverdd/notes/blob/master/notes/镜像扫描.md)
 - [kuryr-kubernetes](https://github.com/Riverdd/notes/blob/master/notes/kuryr-kubernetes.md)
 - [日志环境k8s部署](https://github.com/Riverdd/notes/blob/master/notes/日志环境k8s部署.md)
+- [容器镜像服务部署](https://github.com/Riverdd/notes/blob/master/notes/容器镜像服务部署.md)
