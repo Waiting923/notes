@@ -93,3 +93,7 @@ pod_router = 1a9ebf22-318b-4124-b49a-786299ba5bb9
 pod_subnet_pool = 3bd76a73-59a9-4dc1-b2a4-aa8170a769c6
 ```
 
+## 功能开发
+- 支持多kuryrnetwork选择
+- 支持多kuryrnetwork遍历调度
+- 支持指定kuryrport ip地址
