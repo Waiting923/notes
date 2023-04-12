@@ -106,7 +106,7 @@ $ lspci -nnk -d 10de:2235
 	Subsystem: NVIDIA Corporation Device [10de:145a]
 	Kernel modules: nouveau
 
-#若检查后发现原显卡仍绑定在原nouveau驱动上则进行解绑，若没有绑定则无需操作。
+#若检查后发现原显卡仍绑定在原nouveau驱动上则进行解绑，若没有绑定则无需操作。(若显卡自带声卡，注意声卡也同样需要透传)
 $ echo 0000:21:00.0 > /sys/bus/pci/devices/0000:21:00.0/driver/unbind
 
 $ echo 10de 2235 > /sys/bus/pci/drivers/vfio-pci/new_id
