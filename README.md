@@ -21,3 +21,4 @@
 - [日志环境k8s部署](https://github.com/Riverdd/notes/blob/master/notes/日志环境k8s部署.md)
 - [容器镜像服务部署](https://github.com/Riverdd/notes/blob/master/notes/容器镜像服务部署.md)
 - [lustre-zfs](https://github.com/Riverdd/notes/blob/master/notes/lustre-zfs.md)
+- [kubelet编译](https://github.com/Riverdd/notes/blob/master/notes/kubelet编译.md)
