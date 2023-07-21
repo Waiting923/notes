@@ -41,7 +41,7 @@ externalTrafficPolicy: Local
 
 简单看了一下kube-proxy对应ipvs的代码，是通过ipset和iptables来实现的externalTrafficPolicy: Local，我们只需要让这些节点的kubeproxy不纳管istio-ingress svc就可以达到我们的目标。
 
-看kubeproxy的代码发现其实kubeproxy实现了让忽略服务的功能，只不过没有写到文档里面。(以1.25版本代码为例)
+看kubeproxy的代码发现其实kubeproxy实现了忽略服务的功能，只不过没有写到文档里面。(以1.25版本代码为例)
 ```
 kubernetes/cmd/kube-proxy/app
 /server.go

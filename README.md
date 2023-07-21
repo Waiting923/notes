@@ -22,3 +22,4 @@
 - [容器镜像服务部署](https://github.com/Riverdd/notes/blob/master/notes/容器镜像服务部署.md)
 - [lustre-zfs](https://github.com/Riverdd/notes/blob/master/notes/lustre-zfs.md)
 - [kubelet编译](https://github.com/Riverdd/notes/blob/master/notes/kubelet编译.md)
+- [kubeproxy-noproxy](https://github.com/Riverdd/notes/blob/master/notes/kubeproxy-noproxy.md)
