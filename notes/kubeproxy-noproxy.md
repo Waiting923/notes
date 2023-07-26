@@ -43,8 +43,7 @@ externalTrafficPolicy: Local
 
 看kubeproxy的代码发现其实kubeproxy实现了忽略服务的功能，只不过没有写到文档里面。(以1.25版本代码为例)
 ```
-kubernetes/cmd/kube-proxy/app
-/server.go
+kubernetes/cmd/kube-proxy/app/server.go
 func (s *ProxyServer) Run() error {
     ...
     	noProxyName, err := labels.NewRequirement(apis.LabelServiceProxyName, selection.DoesNotExist, nil)
@@ -77,8 +76,7 @@ const (
 ```
 如果我们直接添加这个label会发现，所有的节点都会忽略掉这个svc，所以我们实现的思路很简单，只需要在除了istio以外的节点上kubeproxy新增一个label，让这些节点来忽略istio-ingress svc
 ```
-kubernetes/cmd/kube-proxy/app
-/server.go
+kubernetes/cmd/kube-proxy/app/server.go
 func (s *ProxyServer) Run() error {
     ...
 	noProxyName, err := labels.NewRequirement(apis.LabelServiceProxyName, selection.DoesNotExist, nil)
