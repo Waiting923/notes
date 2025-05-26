@@ -170,7 +170,7 @@ ray主要负责任务调度，分布式执行以及资源管理和硬件加速
 - 参考
 1. [分布式推理]_https://docs.vllm.ai/en/stable/serving/distributed_serving.html_
 2. [vllm启动参数]_https://docs.vllm.ai/en/stable/serving/engine_args.html_
-3. [自动化脚本]__
+3. [自动化脚本]_https://github.com/Waiting923/scripts/tree/master/deepseek-deploy/llm-vllm_
 
 镜像
 ```
@@ -255,7 +255,7 @@ docker exec -d ${CONTAINER_NAME} bash -c "nohup vllm serve \
 1. [sglang安装]_https://docs.sglang.ai/start/install.html_
 2. [sglang运行deepseek]_https://github.com/sgl-project/sglang/blob/main/benchmark/deepseek_v3/README.md_
 3. [sglang参数]_https://github.com/sgl-project/sglang/blob/main/docs/backend/server_arguments.md_
-4. [自动化脚本]__
+4. [自动化脚本]_https://github.com/Waiting923/scripts/tree/master/deepseek-deploy/llm-sglang_
 
 镜像
 ```
@@ -302,7 +302,7 @@ docker run -d --gpus all \
 ```
 ### Tensorrt-llm推理引擎
 - 参考
-1. [自动化脚本]__
+1. [自动化脚本]_https://github.com/Waiting923/scripts/tree/master/deepseek-deploy/llm-tensorrt_
 
 ## 模型测试
 ```
