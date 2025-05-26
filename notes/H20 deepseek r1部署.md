@@ -291,7 +291,7 @@ docker run -d --gpus all \
       --mem-fraction-static 0.9 \
       --max-prefill-tokens 2000 \ #prefill数值调大会增加首token输出时间(TTFT time to first token)
       --max-total-tokens 65536 \
-      --dist-init-addr 10.82.1.11:20001 \ #主节点地址
+      --dist-init-addr ${主节点ip}}:20001 \ #主节点地址
       --nnodes 2 \ #总节点数量
       --node-rank 0 \ #主节点写0，后续节点依次增加
       --host 0.0.0.0 \
