@@ -2,7 +2,7 @@
 
 确认更换后的磁盘信息（查看是否是新盘）
 
-命令参考[这里](https://github.com/Riverdd/notes/blob/master/ceph%20osd%E7%A1%AC%E7%9B%98%E6%95%85%E9%9A%9C%E5%AE%9A%E4%BD%8D.md)的smartctl命令
+命令参考[这里](https://github.com/Waiting923/notes/blob/master/notes/ceph%20osd硬盘故障定位.md)的smartctl命令
 
 确认磁盘正常识别，盘符识别正确，调整磁盘raid模式
 
